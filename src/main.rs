@@ -36,16 +36,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         let tracks = spotify.current_user_saved_tracks(50, 0).await?;
 
-        spotify.user_playlist_add_tracks(
-            user_id,
-            &playlist.id,
-            &tracks
-                .items
-                .iter()
-                .map(|i| i.track.id.as_ref().unwrap().to_string())
-                .collect::<Vec<String>>(),
-            None,
-        ).await?;
+        spotify
+            .user_playlist_add_tracks(
+                user_id,
+                &playlist.id,
+                &tracks
+                    .items
+                    .iter()
+                    .map(|i| i.track.id.as_ref().unwrap().to_string())
+                    .collect::<Vec<String>>(),
+                None,
+            )
+            .await?;
 
         // Uncertain about how aggressive the ratelimit is
         // For my purpose, it paginates 14 times which is under the ratelimit
@@ -54,16 +56,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         for i in 1..pages {
             let track_offset = spotify.current_user_saved_tracks(50, i * 50).await?;
 
-            spotify.user_playlist_add_tracks(
-                user_id,
-                &playlist.id,
-                &track_offset
-                    .items
-                    .iter()
-                    .map(|i| i.track.id.as_ref().unwrap().to_string())
-                    .collect::<Vec<String>>(),
-                None,
-            ).await?;
+            spotify
+                .user_playlist_add_tracks(
+                    user_id,
+                    &playlist.id,
+                    &track_offset
+                        .items
+                        .iter()
+                        .map(|i| i.track.id.as_ref().unwrap().to_string())
+                        .collect::<Vec<String>>(),
+                    None,
+                )
+                .await?;
         }
     }
 
