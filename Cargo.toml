@@ -1,0 +1,16 @@
+[package]
+name = "spotify-liked-transfer"
+version = "0.1.0"
+authors = ["rumblefrog <contact@rumblefrog.me>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rspotify = "0.10.0"
+tokio = { version = "0.2", features = ["full"] }
+
+[profile.release]
+lto = true
+opt-level = "s"
+codegen-units = 1
